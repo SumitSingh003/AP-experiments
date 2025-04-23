@@ -1,0 +1,31 @@
+Qs: Divide Two Integers
+
+
+
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        // Handle edge case: overflow
+        if (dividend == INT_MIN && divisor == -1)
+            return INT_MAX;
+        if (dividend == INT_MIN && divisor == 1)
+            return INT_MIN;
+
+        // Use long to avoid overflow
+        long long ldividend = abs((long long)dividend);
+        long long ldivisor = abs((long long)divisor);
+        
+        long long count = 0;
+        while (ldividend >= ldivisor) {
+            ldividend -= ldivisor;
+            count++;
+        }
+
+        // Determine sign
+        if ((dividend < 0) ^ (divisor < 0)) {
+            count = -count;
+        }
+
+        return count;
+    }
+};
