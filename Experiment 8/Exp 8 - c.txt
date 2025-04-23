@@ -1,0 +1,32 @@
+Qs: Min operations to make a subsequence
+
+
+class Solution {
+public:
+    int minOperations(vector<int>& target, vector<int>& arr) {
+        unordered_map<int, int> pos;
+        for (int i = 0; i < target.size(); ++i) {
+            pos[target[i]] = i;
+        }
+
+        vector<int> indexSeq;
+        for (int a : arr) {
+            if (pos.find(a) != pos.end()) {
+                indexSeq.push_back(pos[a]);
+            }
+        }
+
+        // Find LIS in indexSeq
+        vector<int> lis;
+        for (int num : indexSeq) {
+            auto it = lower_bound(lis.begin(), lis.end(), num);
+            if (it == lis.end()) {
+                lis.push_back(num);
+            } else {
+                *it = num;
+            }
+        }
+
+        return target.size() - lis.size();
+    }
+};
